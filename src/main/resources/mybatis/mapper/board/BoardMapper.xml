@@ -24,9 +24,8 @@
             FROM  sample_board.boards AS b
                   INNER JOIN sample_board.account_managements AS am
                   ON b.account_id = am.id
-            WHERE b.status = 2
             <if test="searchText != null and searchText != ''">
-                AND b.title LIKE CONCAT(#{searchText}, '%')
+                WHERE b.title LIKE CONCAT(#{searchText}, '%')
             </if>
             ORDER BY b.id DESC
             LIMIT #{offset}, #{pageSize};

@@ -39,6 +39,16 @@ function fnSetLogout() {
 }
 
 function fnLoginAuth() {
+    if ($.trim($('#txt_login_id').val()) == '') {
+        alert('로그인 아이디는 필수값 입니다.');
+        return false;
+    }
+
+    if ($.trim($('#txt_login_pwd').val()) == '') {
+        alert('로그인 패스워드는 필수값 입니다.');
+        return false;
+    }
+
     $.ajax({
         url: "/auth/login",
         contentType: 'application/json',
@@ -61,6 +71,16 @@ function fnLoginAuth() {
 }
 
 function fnRegisterAccount() {
+    if ($.trim($('#txt_register_id').val()) == '') {
+        alert('아이디는 필수값 입니다.');
+        return false;
+    }
+
+    if ($.trim($('#txt_register_pwd').val()) == '') {
+        alert('패스워드는 필수값 입니다.');
+        return false;
+    }
+
     $.ajax({
         url: "/auth/register",
         contentType: 'application/json',
@@ -83,15 +103,23 @@ function fnRegisterAccount() {
     });
 }
 
-function fnInitHeader() {
+function fnAuthCheck() {
     var authToken = $.cookie("auth_token");
 
     if (authToken == null || authToken == "") {
-        $('#divLogInHeader').show();
-        $('#divLogOutHeader').hide();
+        return false;
     } else {
+        return true;
+    }
+}
+
+function fnInitHeader() {
+    if (fnAuthCheck()) {
         $('#divLogOutHeader').show();
         $('#divLogInHeader').hide();
+    } else {
+        $('#divLogInHeader').show();
+        $('#divLogOutHeader').hide();
     }
 }
 
@@ -125,12 +153,28 @@ function fnGetBoardList() {
     }).done(function(result) {
         if (result.resultCode == 0) {
             $.each(result.data, function (index) {
-                content += '<tr>';
-                content += '<td style="text-align:center;">' + result.data[index].id + '</td>';
-                content += '<td style="text-align:center;">' + result.data[index].title + '</td>';
-                content += '<td style="text-align:center;">' + result.data[index].loginId + '</td>';
-                content += '<td style="text-align:center;">' + result.data[index].registeredAt + '</td>';
-                content += '</tr>';
+                if (result.data[index].status == 1) {
+                    content += '<tr>';
+                    content += '<td style="text-align:center;">' + result.data[index].id + '</td>';
+                    content += '<td style="text-align:center;">대가중인 게시글 입니다.</td>';
+                    content += '<td style="text-align:center;">' + result.data[index].loginId + '</td>';
+                    content += '<td style="text-align:center;">' + result.data[index].registeredAt + '</td>';
+                    content += '</tr>';
+                } else if (result.data[index].status == 2) {
+                    content += '<tr>';
+                    content += '<td style="text-align:center;">' + result.data[index].id + '</td>';
+                    content += '<td style="text-align:center;">' + result.data[index].title + '</td>';
+                    content += '<td style="text-align:center;">' + result.data[index].loginId + '</td>';
+                    content += '<td style="text-align:center;">' + result.data[index].registeredAt + '</td>';
+                    content += '</tr>';
+                } else {
+                    content += '<tr>';
+                    content += '<td style="text-align:center;">' + result.data[index].id + '</td>';
+                    content += '<td style="text-align:center;">블라인드 된 게시글 입니다.</td>';
+                    content += '<td style="text-align:center;">' + result.data[index].loginId + '</td>';
+                    content += '<td style="text-align:center;">' + result.data[index].registeredAt + '</td>';
+                    content += '</tr>';
+                }
             });
             content += '</tbody>';
 
@@ -144,6 +188,59 @@ function fnGetBoardList() {
             content += '</tbody>';
             $('#divBoardListArea').html(content);
             $('#divBoardPageNavy').html('');
+        }
+    });
+}
+
+function fnBoardWriteView() {
+    if (fnAuthCheck() == false) {
+        alert('로그인 후 사용하실 수 있습니다.');
+        fnLoginPopUp();
+        return false;
+    }
+
+    $('#txt_board_write_title').val('');
+    $('#txt_board_write_content').val('');
+    fnCloseAllModal();
+    $('#divWriteBoardModal').modal();
+}
+
+function fnBoardWrite() {
+    if (fnAuthCheck() == false) {
+        alert('로그인 후 사용하실 수 있습니다.');
+        fnLoginPopUp();
+        return false;
+    }
+
+    if ($.trim($('#txt_board_write_title').val()) == '') {
+        alert('게시글 제목은 필수값 입니다.');
+        return false;
+    }
+
+    if ($.trim($('#txt_board_write_content').val()) == '') {
+        alert('게시글 내용은 필수값 입니다.');
+        return false;
+    }
+
+    $.ajax({
+        url: "/board/write",
+        contentType: 'application/json',
+        data: '{"authToken": "' + $.cookie("auth_token") + '", "title": "' + $('#txt_board_write_title').val() + '", "contents": "' + $('#txt_board_write_content').val() + '"}',
+        dataType: 'json',
+        type: "post",
+        error : function(result) {
+            alert('System Error : ' + result.resultMsg);
+        }
+    }).done(function(result) {
+        if (result.resultCode == 0) {
+            $('#txt_board_write_title').val('');
+            $('#txt_board_write_content').val('');
+            alert('게시글 작성에 성공하였습니다.');
+            fnCloseAllModal();
+            $('#hdPageNo').val('1');
+            fnGetBoardList();
+        } else {
+            alert(result.resultMsg);
         }
     });
 }
