@@ -167,12 +167,6 @@ public class BoardService {
         }
 
         // Check Content Validation
-        // Check Status (Blind Content)
-        if (_board.getStatus().equals(3)) {
-            _result.setResult(ApiStatusCode.BOARD_UPDATE_DETAIL_BLIND);
-            return _result;
-        }
-
         // Check Author
         if (!_board.getAccountId().equals(_authToken.getAccountId())) {
             _result.setResult(ApiStatusCode.BOARD_UPDATE_DETAIL_NOT_AUTHOR);

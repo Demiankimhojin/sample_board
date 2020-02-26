@@ -10,6 +10,23 @@ $(document).ready(function () {
 });
 
 function fnCloseAllModal() {
+    // Init Input
+    $('#txt_login_id').val('');
+    $('#txt_login_pwd').val('');
+    $('#txt_register_id').val('');
+    $('#txt_register_pwd').val('');
+    $('#txt_board_write_title').val('');
+
+    $('#txt_board_write_content').val('');
+    $('#lb_board_author').text('');
+    $('#lb_board_reg_date').text('');
+    $('#txt_board_detail_title').val('');
+    $('#txt_board_detail_content').val('');
+
+    $('#txt_board_update_title').val('');
+    $('#txt_board_update_content').val('');
+    $('#hdCurrContentNo').val('');
+
     $('div.modal').modal('hide');
 }
 
@@ -233,8 +250,6 @@ function fnBoardWrite() {
         }
     }).done(function(result) {
         if (result.resultCode == 0) {
-            $('#txt_board_write_title').val('');
-            $('#txt_board_write_content').val('');
             alert('게시글 작성에 성공하였습니다.');
             fnCloseAllModal();
             $('#hdPageNo').val('1');
@@ -251,6 +266,8 @@ function fnBoardDetail(contentNo) {
         return false;
     }
 
+    fnCloseAllModal();
+
     $.ajax({
         url: "/board/detail",
         contentType: 'application/json',
@@ -266,7 +283,83 @@ function fnBoardDetail(contentNo) {
             $('#lb_board_reg_date').text(result.data.registeredAt);
             $('#txt_board_detail_title').val(result.data.title);
             $('#txt_board_detail_content').val(result.data.contents);
+            $('#hdCurrContentNo').val(contentNo);
             $('#divDetailBoardModal').modal();
+        } else {
+            alert(result.resultMsg);
+        }
+    });
+}
+
+function fnBoardUpdateView() {
+    var contentNo = $('#hdCurrContentNo').val();
+
+    if (contentNo == '' || parseInt(contentNo) <= 0) {
+        alert('비정상 접속입니다.');
+        return false;
+    }
+
+    $.ajax({
+        url: "/board/update_view",
+        contentType: 'application/json',
+        data: '{"authToken": "' + fnGetAuthToken() + '", "contentId": ' + contentNo + '}',
+        dataType: 'json',
+        type: "post",
+        error : function(result) {
+            alert('System Error : ' + result.resultMsg);
+        }
+    }).done(function(result) {
+        if (result.resultCode == 0) {
+            fnCloseAllModal();
+            $('#txt_board_update_title').val(result.data.title);
+            $('#txt_board_update_content').val(result.data.contents);
+            $('#hdCurrContentNo').val(result.data.id);
+            $('#divUpdateBoardModal').modal();
+        } else {
+            alert(result.resultMsg);
+        }
+    });
+}
+
+function fnBoardUpdate() {
+    if (fnAuthCheck() == false) {
+        alert('로그인 후 사용하실 수 있습니다.');
+        fnLoginPopUp();
+        return false;
+    }
+
+    var contentNo = $('#hdCurrContentNo').val();
+
+    if (contentNo == '' || parseInt(contentNo) <= 0) {
+        alert('비정상 접속입니다.');
+        return false;
+    }
+
+    if ($.trim($('#txt_board_update_title').val()) == '') {
+        alert('게시글 제목은 필수값 입니다.');
+        return false;
+    }
+
+    if ($.trim($('#txt_board_update_content').val()) == '') {
+        alert('게시글 내용은 필수값 입니다.');
+        return false;
+    }
+
+    $.ajax({
+        url: "/board/update",
+        contentType: 'application/json; charset=utf-8;',
+        data: '{"authToken": "' + fnGetAuthToken() + '", "title": "' + $('#txt_board_update_title').val() + '", "contents": "' + $('#txt_board_update_content').val().replace(/\n/g,'\\n') + '", "boardNo": ' + contentNo + '}',
+        dataType: 'json',
+        type: "post",
+        error : function(result) {
+            alert('System Error : ' + result.resultMsg);
+        }
+    }).done(function(result) {
+        if (result.resultCode == 0) {
+            alert('게시글 수정에 성공하였습니다.');
+            fnCloseAllModal();
+            fnGetBoardList();
+            fnBoardDetail(contentNo);
         } else {
             alert(result.resultMsg);
         }

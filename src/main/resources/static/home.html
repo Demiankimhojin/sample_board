@@ -38,6 +38,7 @@
                 <div class="content-row">
                     <input type="hidden" id="hdPageSize" value="5"/>
                     <input type="hidden" id="hdPageNo" value="1"/>
+                    <input type="hidden" id="hdCurrContentNo" value=""/>
                     <div>
                         <div style="float:left; width:50%; padding-bottom:10px;">
                             <select id="ddlbPageSize" name="page_size" class="form-control" style="width:100px;">
@@ -147,7 +148,7 @@
                     <div class="modal-dialog modal-medium" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title">글쓰기</h5>
+                                <h5 class="modal-title">상세정보</h5>
                                 <button type="button" class="close" aria-label="Close" onclick="fnCloseAllModal();">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -182,6 +183,38 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-primary" onclick="fnBoardUpdateView();">수정</button>
+                                <button type="button" class="btn btn-secondary" onclick="fnCloseAllModal();">취소</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="divUpdateBoardModal" class="modal max-width" tabindex="-1" role="dialog">
+                    <div class="modal-dialog modal-medium" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">상세정보</h5>
+                                <button type="button" class="close" aria-label="Close" onclick="fnCloseAllModal();">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <table class="input-table">
+                                    <tr>
+                                        <td style="width:20%;">게시글 제목</td>
+                                        <td style="width:80%;">
+                                            <input type="text" class="form-control" id="txt_board_update_title" maxlength="50" placeholder="게시글 제목"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:20%; vertical-align:top;">게시글 내용</td>
+                                        <td style="width:80%;">
+                                            <textarea rows="6" class="form-control" id="txt_board_update_content" maxlength="1000" placeholder="게시글 내용"></textarea>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" onclick="fnBoardUpdate();">수정</button>
                                 <button type="button" class="btn btn-secondary" onclick="fnCloseAllModal();">취소</button>
                             </div>
                         </div>
