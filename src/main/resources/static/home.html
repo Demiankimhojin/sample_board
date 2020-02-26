@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sample Board System</title>
+    <!-- Bootstrap core CSS -->
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap core JavaScript -->
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script src="/script/jquery.cookie.js"></script>
+    <link href="/css/main.css" rel="stylesheet">
+    <script src="/script/main.js"></script>
+</head>
+<body>
+    <!-- /.header -->
+    <div class="master-header">
+        <div class="header-title">
+            <div><a href="/home.html">Sample Board</a></div>
+        </div>
+        <div class="header-user_info">
+            <div id="divLogInHeader">
+                <button class="btn btn-warning" onclick="fnRegisterPopUp();">회원 가입</button>
+                <button class="btn btn-warning" onclick="fnLoginPopUp();">로그인</button>
+            </div>
+            <div id="divLogOutHeader" style="display:none;">
+                <button class="btn btn-warning" onclick="fnSetLogout();">로그아웃</button>
+            </div>
+        </div>
+    </div>
+    <!-- /.header -->
+
+    <!-- container /. -->
+    <div class="master-body">
+        <div class="master-contents-area">
+            <div class="contents" id="divMainContentsArea">
+                <div class="content-row">
+                    <input type="hidden" id="hdPageSize" value="10"/>
+                    <input type="hidden" id="hdPageNo" value="1"/>
+                    <div>
+                        <select id="ddlbPageSize" name="page_size" class="form-control" style="width:100px;">
+                            <option value="5" selected="selected">5</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                        </select>
+                    </div>
+                    <div id="divBoardListArea">
+                    </div>
+                    <div id="divBoardPageNavy" class="page-navigation-area">
+                    </div>
+                </div>
+                <div id="divLoginModal" class="modal max-width" tabindex="-1" role="dialog">
+                    <div class="modal-dialog modal-small" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">로그인</h5>
+                                <button type="button" class="close" aria-label="Close" onclick="fnCloseAllModal();">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <table class="input-table">
+                                    <tr>
+                                        <td style="width:20%;">아이디</td>
+                                        <td style="width:80%;"><input type="text" class="form-control" id="txt_login_id" maxlength="50" placeholder="아이디"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:20%;">패스워드</td>
+                                        <td style="width:80%;"><input type="password" class="form-control" id="txt_login_pwd" maxlength="50" placeholder="패스워드"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" onclick="fnLoginAuth();">로그인</button>
+                                <button type="button" class="btn btn-secondary" onclick="fnCloseAllModal();">취소</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="divRegisterAccountModal" class="modal max-width" tabindex="-1" role="dialog">
+                    <div class="modal-dialog modal-small" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">회원가입</h5>
+                                <button type="button" class="close" aria-label="Close" onclick="fnCloseAllModal();">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <table class="input-table">
+                                    <tr>
+                                        <td style="width:20%;">아이디</td>
+                                        <td style="width:80%;"><input type="text" class="form-control" id="txt_register_id" maxlength="50" placeholder="아이디"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:20%;">패스워드</td>
+                                        <td style="width:80%;"><input type="password" class="form-control" id="txt_register_pwd" maxlength="50" placeholder="패스워드"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" onclick="fnRegisterAccount();">회원가입</button>
+                                <button type="button" class="btn btn-secondary" onclick="fnCloseAllModal();">취소</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- container /. -->
+
+    <div class="master-footer">
+        <p>Copyright &copy; Demian.khj 2020</p>
+    </div>
+</body>
+</html>

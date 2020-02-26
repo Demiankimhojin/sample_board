@@ -1,0 +1,17 @@
+board:
+  datasource:
+    jdbc-url: jdbc:mysql://localhost:3306/sample_board?autoReconnect=true&useUnicode=true&characterEncoding=UTF8&noAccessToProcedureBodies=true&useTimezone=true&serverTimezone=UTC
+    username: root
+    password:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    sql-script-encoding: UTF-8
+    test-while-idle: true
+    time-between-eviction-runs-millis: 3600000
+    validation-query: SELECT 1
+    remove-abandoned: true
+    remove-abandoned-timeout: 10
+    log-abandoned: true
+    initial-size: 1
+    min-idle: 1
+    max-idle: 4
+    max-active: 4

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sample.board.mysql.mapper.board.BoardMapper">
+    <select id="getBoardTotalCount" resultType="Long">
+        SELECT COUNT(*)
+            FROM  sample_board.boards
+            WHERE status = 2
+            <if test="searchText != null and searchText != ''">
+                AND title LIKE CONCAT(#{searchText}, '%')
+            </if>
+    </select>
+
+    <select id="getBoardList" resultType="com.sample.board.mysql.model.board.Board">
+        SELECT *
+            FROM  sample_board.boards
+            WHERE status = 2
+            <if test="searchText != null and searchText != ''">
+                AND title LIKE CONCAT(#{searchText}, '%')
+            </if>
+            ORDER BY id DESC
+            LIMIT #{offset}, #{pageSize};
+    </select>
+
+    <select id="getBoardDetail" resultType="com.sample.board.mysql.model.board.Board">
+        SELECT *
+            FROM  sample_board.boards
+            WHERE id = #{contentId}
+            LIMIT 1;
+    </select>
+
+    <insert id="insertBoardContent" parameterType="com.sample.board.mysql.model.board.Board" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO sample_board.boards (id, account_id, title, contents)
+                                 VALUES (#{id}, #{accountId}, #{title}, #{contents});
+    </insert>
+
+    <update id="updateBoardContent">
+        UPDATE sample_board.boards
+            SET   title       = #{title}
+                 ,contents    = #{contents}
+                 ,status      = 1
+                 ,modified_at = NOW()
+            WHERE id = #{contentId}
+                AND account_id = #{accountId};
+    </update>
+
+    <update id="updateBoardContentStatus">
+        UPDATE sample_board.boards
+            SET   status = #{status}
+            WHERE id = #{contentId};
+    </update>
+</mapper>

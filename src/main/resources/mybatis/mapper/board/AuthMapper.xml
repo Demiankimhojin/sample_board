@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sample.board.mysql.mapper.board.AuthMapper">
+    <select id="checkAccountDuplicate" resultType="boolean">
+        SELECT EXISTS (SELECT TRUE
+                           FROM   sample_board.account_managements
+                           WHERE  login_id = #{loginId});
+    </select>
+
+    <insert id="insertAccountManagements" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO sample_board.account_managements (login_id, login_pwd)
+                                              VALUES (#{loginId}, #{loginPwd});
+    </insert>
+
+    <select id="getAccountInfo" resultType="com.sample.board.mysql.model.board.AccountManagement">
+        SELECT *
+            FROM  sample_board.account_managements
+            WHERE login_id = #{loginId};
+    </select>
+
+    <update id="authAccount">
+        UPDATE sample_board.account_managements
+            SET   last_login_at  = NOW()
+                 ,login_fail_cnt = 0
+            WHERE id = #{accountId};
+    </update>
+
+    <update id="authFailAccount">
+        UPDATE sample_board.account_managements
+            SET   login_fail_cnt = login_fail_cnt + 1
+                 ,status = CASE WHEN login_fail_cnt + 1 > 5 THEN 2 ELSE status END
+            WHERE id = #{accountId};
+    </update>
+</mapper>

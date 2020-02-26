@@ -1,0 +1,106 @@
+/*! Master Page Css */
+body {
+    min-width:1500px;
+}
+/*! Master Page Header Css */
+body div.master-header {
+    background-color:black; height:60px; width:100%;
+}
+body div.master-header .header-title {
+    width:50%; height:100%; float:left; padding-left:15px; text-align:left; display:table;
+}
+body div.master-header .header-title div {
+    display:table-cell; vertical-align:middle; font-size:25px; font-weight:bold; color:white;
+}
+body div.master-header .header-title div a {
+    text-decoration:none; color:white;
+}
+body div.master-header .header-user_info {
+    width:50%; height:100%; float:left; padding-right:15px; text-align:right; display:table;
+}
+body div.master-header .header-user_info div {
+    display:table-cell; vertical-align:middle; font-weight:bold; color:white; padding:6px 10px 0px 0px;
+}
+
+/*! Master Page Body Css */
+body div.master-body {
+    height:calc(100vh - 120px); position:relative; min-height:500px;
+}
+body div.master-body .master-contents-area .contents{
+    padding:20px;
+}
+
+/*! Master Page Footer Css */
+body div.master-footer {
+    background-color: #21b128; height:60px; width:100%; text-align:center; display:table;
+}
+body div.master-footer p {
+    display:table-cell; vertical-align:middle; font-size:15px; font-weight:bold;
+}
+
+table.input-table {
+    width:100%; border-collapse:separate; border-spacing:7px;
+}
+div.modal-dialog.modal-small {
+    width:90%; max-width:700px; min-width:700px;
+}
+div.modal-dialog.modal-medium {
+    width:90%; max-width:1300px; min-width:1300px;
+}
+
+.content-row {
+    width:100%; padding:5px; margin-top:5px; margin-bottom: 5px;
+}
+.content-row.search {
+    width:100%; border:1px solid grey; border-radius: 10px;
+}
+table.search-table {
+    width: 100%; border-collapse:separate; border-spacing:0 10px;
+}
+table.search-table td.td-column {
+    text-align: center; padding: 0px 3px 0px 5px;
+}
+table.search-table td.td-input {
+    text-align: center; padding-left: 3px; padding-right: 3px; border-radius: 5px;
+}
+
+table.table-list {
+    border:1px solid grey; width:100%; margin-top:25px; margin-bottom:10px;
+}
+table.table-list thead .table-thead {
+    border:1px solid black;
+}
+table.table-list thead .table-thead th {
+    text-align: center; border-left:1px solid white; background-color: rgba(179, 215, 255, 0.54); padding: 6px 0px 6px 0px;
+}
+table.table-list thead .table-thead th:first-child {
+    border-left:1px solid black;
+}
+table.table-list tbody.table-tbody tr:hover {
+    background-color: rgba(228, 228, 228, 0.58);
+}
+table.table-list tbody.table-tbody tr td {
+    border:1px solid black; padding: 6px 5px 6px 5px;
+}
+table.table-list tbody.table-tbody tr td a {
+    cursor:pointer;
+}
+table.table-list tfoot.table-tfoot tr td:first-child {
+    background-color: rgba(179, 215, 255, 0.54);
+}
+table.table-list tfoot.table-tfoot td {
+    text-align:center; padding:6px 5px 6px 5px; border:1px solid black; font-weight:bolder;
+}
+
+div.page-navigation-area {
+    width:100%;
+}
+div.page-navigation-area ul {
+    justify-content: center; display:flex;
+}
+div.page-navigation-area ul li {
+    border:1px solid grey; padding:3px 7px 3px 7px; min-width:35px; margin:0px 5px 0px 5px; text-align:center; border-radius: 5px; bord:bord; color:black; cursor:pointer;
+}
+div.page-navigation-area ul li.active {
+    background-color: #7bc0ff; color:white;
+}
