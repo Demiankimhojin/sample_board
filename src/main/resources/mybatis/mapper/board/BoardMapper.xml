@@ -12,21 +12,39 @@
             </if>
     </select>
 
-    <select id="getBoardList" resultType="com.sample.board.mysql.model.board.Board">
-        SELECT *
-            FROM  sample_board.boards
-            WHERE status = 2
+    <select id="getBoardList" resultType="com.sample.board.model.board.BoardRes">
+        SELECT b.id
+              ,b.account_id
+              ,am.login_id
+              ,b.title
+              ,b.contents
+              ,b.status
+              ,b.registered_at
+              ,b.modified_at
+            FROM  sample_board.boards AS b
+                  INNER JOIN sample_board.account_managements AS am
+                  ON b.account_id = am.id
+            WHERE b.status = 2
             <if test="searchText != null and searchText != ''">
-                AND title LIKE CONCAT(#{searchText}, '%')
+                AND b.title LIKE CONCAT(#{searchText}, '%')
             </if>
-            ORDER BY id DESC
+            ORDER BY b.id DESC
             LIMIT #{offset}, #{pageSize};
     </select>
 
-    <select id="getBoardDetail" resultType="com.sample.board.mysql.model.board.Board">
-        SELECT *
+    <select id="getBoardDetail" resultType="com.sample.board.model.board.BoardRes">
+        SELECT b.id
+              ,b.account_id
+              ,am.login_id
+              ,b.title
+              ,b.contents
+              ,b.status
+              ,b.registered_at
+              ,b.modified_at
             FROM  sample_board.boards
-            WHERE id = #{contentId}
+                  INNER JOIN sample_board.account_managements AS am
+                  ON b.account_id = am.id
+            WHERE b.id = #{contentId}
             LIMIT 1;
     </select>
 

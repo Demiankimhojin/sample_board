@@ -4,6 +4,7 @@ import com.sample.board.enums.ApiStatusCode;
 import com.sample.board.model.api.AuthToken;
 import com.sample.board.model.api.Result;
 import com.sample.board.model.board.BoardReq.*;
+import com.sample.board.model.board.BoardRes;
 import com.sample.board.mysql.mapper.board.BoardMapper;
 import com.sample.board.mysql.model.board.BlockWord;
 import com.sample.board.mysql.model.board.Board;
@@ -42,10 +43,10 @@ public class BoardService {
      * @return API Result with Board List
      */
     public Result listBoardContent(BoardListRequest boardListRequest) {
-        Integer     _pageOffset;
-        Long        _totalCount;
-        List<Board> _boardList;
-        Result      _result     = new Result();
+        Integer        _pageOffset;
+        Long           _totalCount;
+        List<BoardRes> _boardList;
+        Result         _result     = new Result();
 
         // Get Board Total Count
         _totalCount = boardMapper.getBoardTotalCount(boardListRequest.getSearchText());
@@ -69,7 +70,7 @@ public class BoardService {
      */
     public Result getBoardDetail(BoardDetailRequest boardDetailRequest) throws Exception {
         AuthToken _authToken;
-        Board     _board;
+        BoardRes  _board;
         Result    _result    = new Result();
 
         // Get Board Detail
@@ -148,7 +149,7 @@ public class BoardService {
      */
     public Result getUpdateViewBoardDetail(BoardDetailRequest boardDetailRequest) throws Exception {
         AuthToken _authToken;
-        Board     _board;
+        BoardRes  _board;
         Result    _result = new Result();
 
         // Get Board Detail
@@ -226,8 +227,8 @@ public class BoardService {
      * @param contentId
      * @return Board Detail
      */
-    private Board getBoardDetail(Long contentId) {
-        Board _board;
+    private BoardRes getBoardDetail(Long contentId) {
+        BoardRes _board;
 
         // Get Board Detail
         _board = boardMapper.getBoardDetail(contentId);

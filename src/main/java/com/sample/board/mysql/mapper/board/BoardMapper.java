@@ -1,5 +1,6 @@
 package com.sample.board.mysql.mapper.board;
 
+import com.sample.board.model.board.BoardRes;
 import com.sample.board.mysql.model.board.Board;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -19,11 +20,11 @@ import java.util.List;
 public interface BoardMapper {
     Long getBoardTotalCount(@Param("searchText") String searchText);
 
-    List<Board> getBoardList(@Param("searchText") String searchText,
-                             @Param("offset") Integer offset,
-                             @Param("pageSize") Integer pageSize);
+    List<BoardRes> getBoardList(@Param("searchText") String searchText,
+                                @Param("offset") Integer offset,
+                                @Param("pageSize") Integer pageSize);
 
-    Board getBoardDetail(@Param("contentId") Long contentId);
+    BoardRes getBoardDetail(@Param("contentId") Long contentId);
 
     Long insertBoardContent(Board board);
 

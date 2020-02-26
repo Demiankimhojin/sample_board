@@ -14,10 +14,16 @@ function fnCloseAllModal() {
 }
 
 function fnRegisterPopUp() {
+    $('#txt_register_id').val('');
+    $('#txt_register_pwd').val('');
+    fnCloseAllModal();
     $('#divRegisterAccountModal').modal();
 }
 
 function fnLoginPopUp() {
+    $('#txt_login_id').val('');
+    $('#txt_login_pwd').val('');
+    fnCloseAllModal();
     $('#divLoginModal').modal();
 }
 
@@ -96,8 +102,9 @@ function fnGetBoardList() {
     content += '<thead>';
     content += '<tr class="table-thead">';
     content += '<th style="width:10%;">게시물 번호</th>';
-    content += '<th style="width:80%;">게시글 제목</th>';
-    content += '<th style="width:10%;">작성자 계정 번호</th>';
+    content += '<th style="width:65%;">게시글 제목</th>';
+    content += '<th style="width:10%;">작성자</th>';
+    content += '<th style="width:15%;">작성 일시</th>';
     content += '</tr>'
     content += '</thead>';
     content += '<tbody class="table-tbody">';
@@ -121,7 +128,8 @@ function fnGetBoardList() {
                 content += '<tr>';
                 content += '<td style="text-align:center;">' + result.data[index].id + '</td>';
                 content += '<td style="text-align:center;">' + result.data[index].title + '</td>';
-                content += '<td style="text-align:center;">' + result.data[index].accountId + '</td>';
+                content += '<td style="text-align:center;">' + result.data[index].loginId + '</td>';
+                content += '<td style="text-align:center;">' + result.data[index].registeredAt + '</td>';
                 content += '</tr>';
             });
             content += '</tbody>';
@@ -131,7 +139,7 @@ function fnGetBoardList() {
         } else {
             alert(result.resultMsg);
             content += '<tr>';
-            content += '<td colspan="3" style="text-align:center;">No Data</td>';
+            content += '<td colspan="4" style="text-align:center;">No Data</td>';
             content += '</tr>';
             content += '</tbody>';
             $('#divBoardListArea').html(content);

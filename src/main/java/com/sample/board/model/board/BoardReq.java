@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * Description : Boards Response Models
+ * Description : Boards Request Models
  * Version : V1.0
  * Author : Demian.khj
  * Create Date : 2020-02-25
