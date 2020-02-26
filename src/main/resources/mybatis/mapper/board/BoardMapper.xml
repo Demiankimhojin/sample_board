@@ -40,7 +40,7 @@
               ,b.status
               ,b.registered_at
               ,b.modified_at
-            FROM  sample_board.boards
+            FROM  sample_board.boards AS b
                   INNER JOIN sample_board.account_managements AS am
                   ON b.account_id = am.id
             WHERE b.id = #{contentId}

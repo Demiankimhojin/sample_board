@@ -56,8 +56,8 @@ public class BoardController {
      * @param boardDetailRequest
      * @return API Result
      */
-    @GetMapping("/detail")
-    public Result GetBoardDetail(BoardDetailRequest boardDetailRequest) {
+    @PostMapping("/detail")
+    public Result GetBoardDetail(@RequestBody BoardDetailRequest boardDetailRequest) {
         Result _result = new Result();
 
         try {
@@ -102,8 +102,8 @@ public class BoardController {
      * @param boardDetailRequest
      * @return
      */
-    @GetMapping("/update_view")
-    public Result UpdateViewBoard(BoardDetailRequest boardDetailRequest) {
+    @PostMapping("/update_view")
+    public Result UpdateViewBoard(@RequestBody BoardDetailRequest boardDetailRequest) {
         Result _result = new Result();
 
         try {

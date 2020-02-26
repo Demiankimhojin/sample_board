@@ -143,6 +143,50 @@
                         </div>
                     </div>
                 </div>
+                <div id="divDetailBoardModal" class="modal max-width" tabindex="-1" role="dialog">
+                    <div class="modal-dialog modal-medium" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">글쓰기</h5>
+                                <button type="button" class="close" aria-label="Close" onclick="fnCloseAllModal();">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <table class="input-table">
+                                    <tr>
+                                        <td style="width:20%;">작성자</td>
+                                        <td style="width:80%;">
+                                            <label class="form-control" id="lb_board_author"></label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:20%;">작성일시</td>
+                                        <td style="width:80%;">
+                                            <label class="form-control" id="lb_board_reg_date"></label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:20%;">게시글 제목</td>
+                                        <td style="width:80%;">
+                                            <input type="text" class="form-control" id="txt_board_detail_title" maxlength="50" placeholder="게시글 제목" readonly="readonly"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:20%; vertical-align:top;">게시글 내용</td>
+                                        <td style="width:80%;">
+                                            <textarea rows="6" class="form-control" id="txt_board_detail_content" maxlength="1000" placeholder="게시글 내용" readonly="readonly"></textarea>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" onclick="fnBoardUpdateView();">수정</button>
+                                <button type="button" class="btn btn-secondary" onclick="fnCloseAllModal();">취소</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

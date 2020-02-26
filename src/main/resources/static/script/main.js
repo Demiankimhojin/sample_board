@@ -113,6 +113,16 @@ function fnAuthCheck() {
     }
 }
 
+function fnGetAuthToken() {
+    var authToken = $.cookie("auth_token");
+
+    if (authToken == null || authToken == "") {
+        return '';
+    } else {
+        return authToken;
+    }
+}
+
 function fnInitHeader() {
     if (fnAuthCheck()) {
         $('#divLogOutHeader').show();
@@ -143,7 +153,7 @@ function fnGetBoardList() {
         error : function(result) {
             alert('System Error : ' + result.resultMsg);
             content += '<tr>';
-            content += '<td colspan="3" style="text-align:center;">No Data</td>';
+            content += '<td colspan="4" style="text-align:center;">No Data</td>';
             content += '</tr>';
             content += '</tbody>';
 
@@ -153,28 +163,18 @@ function fnGetBoardList() {
     }).done(function(result) {
         if (result.resultCode == 0) {
             $.each(result.data, function (index) {
+                content += '<tr onclick="fnBoardDetail(' + result.data[index].id + ')">';
+                content += '<td style="text-align:center;">' + result.data[index].id + '</td>';
                 if (result.data[index].status == 1) {
-                    content += '<tr>';
-                    content += '<td style="text-align:center;">' + result.data[index].id + '</td>';
                     content += '<td style="text-align:center;">대가중인 게시글 입니다.</td>';
-                    content += '<td style="text-align:center;">' + result.data[index].loginId + '</td>';
-                    content += '<td style="text-align:center;">' + result.data[index].registeredAt + '</td>';
-                    content += '</tr>';
                 } else if (result.data[index].status == 2) {
-                    content += '<tr>';
-                    content += '<td style="text-align:center;">' + result.data[index].id + '</td>';
                     content += '<td style="text-align:center;">' + result.data[index].title + '</td>';
-                    content += '<td style="text-align:center;">' + result.data[index].loginId + '</td>';
-                    content += '<td style="text-align:center;">' + result.data[index].registeredAt + '</td>';
-                    content += '</tr>';
                 } else {
-                    content += '<tr>';
-                    content += '<td style="text-align:center;">' + result.data[index].id + '</td>';
                     content += '<td style="text-align:center;">블라인드 된 게시글 입니다.</td>';
-                    content += '<td style="text-align:center;">' + result.data[index].loginId + '</td>';
-                    content += '<td style="text-align:center;">' + result.data[index].registeredAt + '</td>';
-                    content += '</tr>';
                 }
+                content += '<td style="text-align:center;">' + result.data[index].loginId + '</td>';
+                content += '<td style="text-align:center;">' + result.data[index].registeredAt + '</td>';
+                content += '</tr>';
             });
             content += '</tbody>';
 
@@ -224,8 +224,8 @@ function fnBoardWrite() {
 
     $.ajax({
         url: "/board/write",
-        contentType: 'application/json',
-        data: '{"authToken": "' + $.cookie("auth_token") + '", "title": "' + $('#txt_board_write_title').val() + '", "contents": "' + $('#txt_board_write_content').val() + '"}',
+        contentType: 'application/json; charset=utf-8;',
+        data: '{"authToken": "' + fnGetAuthToken() + '", "title": "' + $('#txt_board_write_title').val() + '", "contents": "' + $('#txt_board_write_content').val().replace(/\n/g,'\\n') + '"}',
         dataType: 'json',
         type: "post",
         error : function(result) {
@@ -239,6 +239,34 @@ function fnBoardWrite() {
             fnCloseAllModal();
             $('#hdPageNo').val('1');
             fnGetBoardList();
+        } else {
+            alert(result.resultMsg);
+        }
+    });
+}
+
+function fnBoardDetail(contentNo) {
+    if (contentNo == '' || parseInt(contentNo) <= 0) {
+        alert('비정상 접속입니다.');
+        return false;
+    }
+
+    $.ajax({
+        url: "/board/detail",
+        contentType: 'application/json',
+        data: '{"authToken": "' + fnGetAuthToken() + '", "contentId": ' + contentNo + '}',
+        dataType: 'json',
+        type: "post",
+        error : function(result) {
+            alert('System Error : ' + result.resultMsg);
+        }
+    }).done(function(result) {
+        if (result.resultCode == 0) {
+            $('#lb_board_author').text(result.data.loginId);
+            $('#lb_board_reg_date').text(result.data.registeredAt);
+            $('#txt_board_detail_title').val(result.data.title);
+            $('#txt_board_detail_content').val(result.data.contents);
+            $('#divDetailBoardModal').modal();
         } else {
             alert(result.resultMsg);
         }

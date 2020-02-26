@@ -89,7 +89,7 @@ public class BoardService {
 
         // Check Content Validation
         // Check Status (Blind Content)
-        if (_board.getStatus().equals(3)) {
+        if (_board.getStatus().equals(3) && !_board.getAccountId().equals(_authToken.getAccountId())) {
             _result.setResult(ApiStatusCode.BOARD_DETAIL_BLIND);
             return _result;
         }
