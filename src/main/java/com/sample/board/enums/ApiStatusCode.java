@@ -35,8 +35,9 @@ public enum  ApiStatusCode {
 
     // 게시글 상세 조회 에러
     BOARD_DETAIL_NOT_EXIST(-1221, "게시글 정보가 존재하지 않습니다."),
-    BOARD_DETAIL_BLIND(-1222, "블라인드 처리된 게시글 입니다."),
-    BOARD_DETAIL_NOT_AUTHOR(-1223, "대기 상태시 본인만 확인할 수 있습니다."),
+    BOARD_DETAIL_DELETE(-1222, "삭제된 게시글 입니다."),
+    BOARD_DETAIL_BLIND(-1223, "블라인드 처리된 게시글 입니다."),
+    BOARD_DETAIL_NOT_AUTHOR(-1224, "대기 상태시 본인만 확인할 수 있습니다."),
     BOARD_DETAIL_EXCEPTION(-1229, "게시글 상세 정보를 조회하지 못하였습니다."),
 
     // 게시글 등록 에러
@@ -46,7 +47,7 @@ public enum  ApiStatusCode {
 
     // 게시글 수정 상세 조회 에러
     BOARD_UPDATE_DETAIL_NOT_EXIST(-1241, "게시글 정보가 존재하지 않습니다."),
-    BOARD_UPDATE_DETAIL_BLIND(-1242, "블라인드 처리된 게시글 입니다."),
+    BOARD_UPDATE_DETAIL_DELETE(-1242, "삭제된 게시글 입니다."),
     BOARD_UPDATE_DETAIL_NOT_AUTHOR(-1243, "작성자만 수정이 가능합니다."),
     BOARD_UPDATE_DETAIL_EXCEPTION(-1249, "게시글 상세 정보를 조회하지 못하였습니다."),
 
@@ -55,6 +56,12 @@ public enum  ApiStatusCode {
     BOARD_UPDATE_CONTENT_PARAM_EMPTY(-1252, "필수값이 없습니다."),
     BOARD_UPDATE_DB_ERROR(-1253, "게시글 수정에 실패하였습니다."),
     BOARD_UPDATE_EXCEPTION(-1259, "게시글 수정에 실패하였습니다."),
+
+    // 게시글 삭제 에러
+    BOARD_DELETE_NOT_EXIST(-1261, "게시글 정보가 존재하지 않습니다."),
+    BOARD_DELETE_NOT_AUTHOR(-1262, "작성자만 삭제 가능합니다."),
+    BOARD_DELETE_DB_EXCEPTION(-1263, "게시글 삭제에 실패하였습니다."),
+    BOARD_DELETE_EXCEPTION(-1269, "게시글 삭제에 실패하였습니다."),
 
     // 공용 에러 : -9000 ~ 9999
     SERIALIZE_EXCEPTION(-9901, "알 수 없는 에러가 발생하였습니다."),

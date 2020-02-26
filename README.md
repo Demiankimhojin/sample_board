@@ -29,6 +29,7 @@ API List
 - 게시글 작성 : /board/write
 - 게시글 수정 페이지 조회 : /board/update_view
 - 게시글 수정 : /board/update
+- 게시글 삭제 : /board/delete
 
 
 실행 방법

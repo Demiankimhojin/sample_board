@@ -88,6 +88,12 @@ public class BoardService {
         }
 
         // Check Content Validation
+        // Check Status (Delete Content)
+        if (_board.getStatus().equals(4)) {
+            _result.setResult(ApiStatusCode.BOARD_DETAIL_DELETE);
+            return _result;
+        }
+
         // Check Status (Blind Content)
         if (_board.getStatus().equals(3) && !_board.getAccountId().equals(_authToken.getAccountId())) {
             _result.setResult(ApiStatusCode.BOARD_DETAIL_BLIND);
@@ -167,6 +173,12 @@ public class BoardService {
         }
 
         // Check Content Validation
+        // Check Status
+        if (_board.getStatus().equals(4)) {
+            _result.setResult(ApiStatusCode.BOARD_UPDATE_DETAIL_DELETE);
+            return _result;
+        }
+
         // Check Author
         if (!_board.getAccountId().equals(_authToken.getAccountId())) {
             _result.setResult(ApiStatusCode.BOARD_UPDATE_DETAIL_NOT_AUTHOR);
@@ -212,6 +224,48 @@ public class BoardService {
 
         // Check Block Word
         checkBlockWords(boardUpdateRequest.getBoardNo(), boardUpdateRequest.getTitle(), boardUpdateRequest.getContents());
+
+        return _result;
+    }
+
+    /**
+     * Update Board Content
+     * @param boardDetailRequest
+     * @return API Result
+     */
+    @Transactional(rollbackFor = { Exception.class })
+    public Result deleteBoardContent(BoardDetailRequest boardDetailRequest) throws Exception {
+        Integer   _rowCount;
+        AuthToken _authToken;
+        BoardRes  _board;
+        Result    _result = new Result();
+
+        // Get Board Detail
+        _board = getBoardDetail(boardDetailRequest.getContentId());
+        if (_board == null) {
+            _result.setResult(ApiStatusCode.BOARD_DELETE_NOT_EXIST);
+            return _result;
+        }
+
+        // Get Auth Token From Param
+        if (boardDetailRequest.getAuthToken() == null || boardDetailRequest.getAuthToken().isEmpty()) {
+            _authToken = new AuthToken();
+        } else {
+            _authToken = CommonModule.GetAuthInfoFromToken(boardDetailRequest.getAuthToken());
+        }
+
+        // Check Content Validation
+        // Check Author
+        if (!_board.getAccountId().equals(_authToken.getAccountId())) {
+            _result.setResult(ApiStatusCode.BOARD_DELETE_NOT_AUTHOR);
+            return _result;
+        }
+
+        // Delete Board Content
+        _rowCount = boardMapper.updateBoardContentStatus(_board.getId(), 4);
+        if (!_rowCount.equals(1)) {
+            throw new Exception(ApiStatusCode.BOARD_DELETE_DB_EXCEPTION.getDesc());
+        }
 
         return _result;
     }

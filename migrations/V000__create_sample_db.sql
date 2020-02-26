@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS sample_board.boards (
   account_id                BIGINT(20)          NOT NULL                        COMMENT '계정 아이디',
   title                     VARCHAR(100)        NOT NULL                        COMMENT '게시글 제목',
   contents                  MEDIUMTEXT          NOT NULL                        COMMENT '게시글 내용',
-  status                    TINYINT             NOT NULL        DEFAULT 1       COMMENT '상태 (1:등록 요청, 2:등록 완료, 3:블라인드)',
+  status                    TINYINT             NOT NULL        DEFAULT 1       COMMENT '상태 (1:등록 요청, 2:등록 완료, 3:블라인드, 4:삭제된 게시글)',
   registered_at             DATETIME            NOT NULL        DEFAULT NOW()   COMMENT '등록 일시',
   modified_at               DATETIME            NOT NULL        DEFAULT NOW()   COMMENT '수정 일시',
   PRIMARY KEY (id),

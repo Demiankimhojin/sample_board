@@ -180,14 +180,20 @@ function fnGetBoardList() {
     }).done(function(result) {
         if (result.resultCode == 0) {
             $.each(result.data, function (index) {
-                content += '<tr onclick="fnBoardDetail(' + result.data[index].id + ')">';
+                if (result.data[index].status == 4) {
+                    content += '<tr>';
+                } else {
+                    content += '<tr onclick="fnBoardDetail(' + result.data[index].id + ')">';
+                }
                 content += '<td style="text-align:center;">' + result.data[index].id + '</td>';
                 if (result.data[index].status == 1) {
                     content += '<td style="text-align:center;">대가중인 게시글 입니다.</td>';
                 } else if (result.data[index].status == 2) {
                     content += '<td style="text-align:center;">' + result.data[index].title + '</td>';
-                } else {
+                } else if (result.data[index].status == 3) {
                     content += '<td style="text-align:center;">블라인드 된 게시글 입니다.</td>';
+                } else if (result.data[index].status == 4) {
+                    content += '<td style="text-align:center;">삭제된 게시글 입니다.</td>';
                 }
                 content += '<td style="text-align:center;">' + result.data[index].loginId + '</td>';
                 content += '<td style="text-align:center;">' + result.data[index].registeredAt + '</td>';
@@ -360,6 +366,43 @@ function fnBoardUpdate() {
             fnCloseAllModal();
             fnGetBoardList();
             fnBoardDetail(contentNo);
+        } else {
+            alert(result.resultMsg);
+        }
+    });
+}
+
+function fnBoardDelete() {
+    if (fnAuthCheck() == false) {
+        alert('로그인 후 사용하실 수 있습니다.');
+        fnLoginPopUp();
+        return false;
+    }
+
+    var contentNo = $('#hdCurrContentNo').val();
+
+    if (contentNo == '' || parseInt(contentNo) <= 0) {
+        alert('비정상 접속입니다.');
+        return false;
+    }
+
+    if(!confirm('해당 게시글을 삭제 하시겠습니까?')) {
+        return false;
+    }
+
+    $.ajax({
+        url: "/board/delete",
+        contentType: 'application/json',
+        data: '{"authToken": "' + fnGetAuthToken() + '", "contentId": ' + contentNo + '}',
+        dataType: 'json',
+        type: "post",
+        error : function(result) {
+            alert('System Error : ' + result.resultMsg);
+        }
+    }).done(function(result) {
+        if (result.resultCode == 0) {
+            fnCloseAllModal();
+            fnGetBoardList();
         } else {
             alert(result.resultMsg);
         }

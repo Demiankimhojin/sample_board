@@ -77,7 +77,7 @@ public class BoardController {
     /**
      * Board Write API
      * @param boardWriteRequest
-     * @return
+     * @return API Result
      */
     @PostMapping("/write")
     public Result WriteBoard(@RequestBody BoardWriteRequest boardWriteRequest) {
@@ -100,7 +100,7 @@ public class BoardController {
     /**
      * Board Detail Information API for Update
      * @param boardDetailRequest
-     * @return
+     * @return API Result
      */
     @PostMapping("/update_view")
     public Result UpdateViewBoard(@RequestBody BoardDetailRequest boardDetailRequest) {
@@ -123,7 +123,7 @@ public class BoardController {
     /**
      * Board Update API
      * @param boardUpdateRequest
-     * @return
+     * @return API Result
      */
     @PostMapping("/update")
     public Result UpdateBoard(@RequestBody BoardUpdateRequest boardUpdateRequest) {
@@ -138,6 +138,29 @@ public class BoardController {
         } catch (Exception Ex) {
             System.out.println("/board/update Exception Error : " + Ex.toString());
             _result.setResult(ApiStatusCode.BOARD_UPDATE_EXCEPTION);
+        }
+
+        return _result;
+    }
+
+    /**
+     * Board Delete API
+     * @param boardDetailRequest
+     * @return API Result
+     */
+    @PostMapping("/delete")
+    public Result DeleteBoard(@RequestBody BoardDetailRequest boardDetailRequest) {
+        Result _result = new Result();
+
+        try {
+            _result = boardService.deleteBoardContent(boardDetailRequest);
+            if (_result.getResultCode() != 0) {
+                System.out.println("/board/delete deleteBoardContent Error : " + _result.getResultMsg());
+                return _result;
+            }
+        } catch (Exception Ex) {
+            System.out.println("/board/delete Exception Error : " + Ex.toString());
+            _result.setResult(ApiStatusCode.BOARD_DELETE_EXCEPTION);
         }
 
         return _result;
